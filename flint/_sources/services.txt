@@ -1,0 +1,60 @@
+=================================================
+Services
+=================================================
+
+Services are the key component of Flint and Silex. All of your business logic, models, utitlity classes et al should be defined as services, and injected into one another using the ``/app/services.php`` configuration file. Following this pattern strictly will keep all of your code loosely coupled, easily mocked and simply tested. Your classes
+
+Syntax For ``/app/services.php``
+=========================
+
+.. literalinclude:: code/app/services.php
+    :language: php
+    :linenos:
+
+The ``app/services.php`` file is like other configuration files: an array of arrays that defines the services that will be loaded into the dependency injection container (which lives on ``Flint\App`` or your extended version of it). Each service must have these two arguments, as well as a name (the key for the array):
+
+- ``class``: Class name for the service, including all namespaces
+- ``arguments``: An array for the arguments to be passed to the contructor of the service when it is loaded
+
+The arguments array can be empty. It can also pass in direct values, as you can see on line 11-14 of the above example configuration. To pass a service into another service, a pattern called **dependency injection**, pass a string value in with the value set as the service name prefix with an ``@`` symbol:
+
+.. literalinclude:: code/app/services.php
+    :language: php
+    :linenos:
+    :emphasize-lines: 4,12
+
+
+You can then access the services in controllers (again injected in constructors, see the :doc:`controllers` page for how to do so) in the following way:
+
+.. code-block:: php
+    :linenos:
+    :emphasize-lines: 6,18,26
+
+    <?php
+    namespace FlintExample\Controller;
+
+    use FlintExample\ExampleApp,
+        FlintExample\Accessors,
+        FlintExample\Service\HelloService;
+
+    class TestController
+    {
+        /**
+         * Utility trait to give magic getters and setters for any class properties
+         */
+        use Accessors;
+
+        private $app,
+                $hello;
+
+        public function __construct(ExampleApp $app, HelloService $hello)
+        {
+            $this->setApp($app);
+            $this->setHello($hello);
+        }
+
+        public function indexFunction()
+        {
+            return $this->getHello()->hello("Josh");
+        }
+    }

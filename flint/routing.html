@@ -1,0 +1,357 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Routing &mdash; Flint 1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Flint 1 documentation" href="index.html"/>
+        <link rel="next" title="Silex Integration" href="silex.html"/>
+        <link rel="prev" title="Controllers" href="controllers.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> Flint
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#quick-start">Quick Start</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="structure.html">Project Structure</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="structure.html#base-architecture">Base Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="structure.html#extending-flint-app">Extending <code class="docutils literal"><span class="pre">Flint\App</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="structure.html#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="services.html">Services</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="services.html#syntax-for-app-services-php">Syntax For <code class="docutils literal"><span class="pre">/app/services.php</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="controllers.html">Controllers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="controllers.html#syntax-for-app-controllers-php">Syntax For <code class="docutils literal"><span class="pre">app/controllers.php</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="controllers.html#injecting-a-service">Injecting A Service</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Routing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#controllers-and-route-groups">Controllers and Route Groups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#route-names-and-converters">Route Names and Converters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="silex.html">Silex Integration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="silex.html#init-function">Init Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="silex.html#traits">Traits</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Flint</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Routing</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/routing.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="routing">
+<h1>Routing<a class="headerlink" href="#routing" title="Permalink to this headline">¶</a></h1>
+<p>Routing is handled the same way as the rest of Flint, with PHP config files return an array of arrays. The arrays themselves are key=&gt;value where the key is the route itself (ie. <code class="docutils literal"><span class="pre">/posts</span></code> or <code class="docutils literal"><span class="pre">/hello/{name}</span></code>) and the value is an array of configuration values for that route that are used if it&#8217;s matched. Routes work the same was as Silex, so check their documentation for how route definitions and parameters are matched and passed through to a controller.</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">&lt;?php</span>
+
+<span class="k">return</span> <span class="p">[</span>
+    <span class="s1">&#39;/&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span> <span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="s1">&#39;example.controller:indexAction&#39;</span> <span class="p">],</span>
+    <span class="s1">&#39;/example&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">&#39;/&#39;</span>     <span class="o">=&gt;</span> <span class="p">[</span> <span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="s1">&#39;example.controller:nestedAction&#39;</span> <span class="p">],</span>
+    <span class="p">],</span>
+    <span class="s1">&#39;/hello/{name}&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">&#39;get&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;example.controller:helloAction&#39;</span><span class="p">,</span>
+        <span class="k">null</span><span class="p">,</span>
+        <span class="p">[</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;ExampleService:reverse&#39;</span>
+        <span class="p">]</span>
+    <span class="p">]</span>
+<span class="p">];</span>
+</pre></div>
+</td></tr></table></div>
+<p>Require values for each route are:</p>
+<ul class="simple">
+<li>Route<ul>
+<li>Method (<code class="docutils literal"><span class="pre">get</span></code>, <code class="docutils literal"><span class="pre">post</span></code>, <code class="docutils literal"><span class="pre">put</span></code>, <code class="docutils literal"><span class="pre">delete</span></code>)</li>
+<li>Controller</li>
+</ul>
+</li>
+</ul>
+<div class="section" id="controllers-and-route-groups">
+<h2>Controllers and Route Groups<a class="headerlink" href="#controllers-and-route-groups" title="Permalink to this headline">¶</a></h2>
+<p>While you can bind a route to a callback, best practice to to use a controller, as shown in the previous page of this documentation. You can see how that is done on line 4. Route grouping is done by setting a top-level route that the group will be under, and having an array of arrays as if it was a top-level definition underneath that. See lines 5-7 for an example. Currently, only one level of grouping is supported.</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">&lt;?php</span>
+
+<span class="k">return</span> <span class="p">[</span>
+    <span class="s1">&#39;/&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span> <span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="s1">&#39;example.controller:indexAction&#39;</span> <span class="p">],</span>
+<span class="hll">    <span class="s1">&#39;/example&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+</span><span class="hll">        <span class="s1">&#39;/&#39;</span>     <span class="o">=&gt;</span> <span class="p">[</span> <span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="s1">&#39;example.controller:nestedAction&#39;</span> <span class="p">],</span>
+</span><span class="hll">    <span class="p">],</span>
+</span>    <span class="s1">&#39;/hello/{name}&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">&#39;get&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;example.controller:helloAction&#39;</span><span class="p">,</span>
+        <span class="k">null</span><span class="p">,</span>
+        <span class="p">[</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;ExampleService:reverse&#39;</span>
+        <span class="p">]</span>
+    <span class="p">]</span>
+<span class="p">];</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="route-names-and-converters">
+<h2>Route Names and Converters<a class="headerlink" href="#route-names-and-converters" title="Permalink to this headline">¶</a></h2>
+<p>Two optional values in a route definition are route names (which come after the controller definition), and converter methods (which are last). Route names are super useful for Twig templating, allowing you to use the URL methods to generate correct URLs even if they change over time without touching your template code. See line 11 for an example.</p>
+<p>Converter methods are a powerful tool that run before the controller&#8217;s method is called: these will allow you to sanitise or otherwise munge data that is brought through the route parameters. Converter methods can either be an anonymous function, or a service=&gt;method definition, the same way the controller definition works. The main difference is that the parameter name is passed in, so that if multiple route parameters are defined you can pass through only the ones you want converted. You can see a definition on lines 12-15 below.</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">&lt;?php</span>
+
+<span class="k">return</span> <span class="p">[</span>
+    <span class="s1">&#39;/&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span> <span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="s1">&#39;example.controller:indexAction&#39;</span> <span class="p">],</span>
+    <span class="s1">&#39;/example&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">&#39;/&#39;</span>     <span class="o">=&gt;</span> <span class="p">[</span> <span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="s1">&#39;example.controller:nestedAction&#39;</span> <span class="p">],</span>
+    <span class="p">],</span>
+    <span class="s1">&#39;/hello/{name}&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">&#39;get&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;example.controller:helloAction&#39;</span><span class="p">,</span>
+        <span class="k">null</span><span class="p">,</span>
+<span class="hll">        <span class="p">[</span>
+</span><span class="hll">            <span class="s1">&#39;name&#39;</span><span class="p">,</span>
+</span><span class="hll">            <span class="s1">&#39;ExampleService:reverse&#39;</span>
+</span><span class="hll">        <span class="p">]</span>
+</span>    <span class="p">]</span>
+<span class="p">];</span>
+</pre></div>
+</td></tr></table></div>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">&lt;?php</span>
+<span class="k">namespace</span> <span class="nx">FlintExample\Service</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ExampleService</span>
+<span class="p">{</span>
+<span class="hll">    <span class="k">public</span> <span class="k">function</span> <span class="nf">reverse</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span>
+</span><span class="hll">    <span class="p">{</span>
+</span><span class="hll">        <span class="k">return</span> <span class="nb">strrev</span><span class="p">(</span><span class="nv">$name</span><span class="p">);</span>
+</span><span class="hll">    <span class="p">}</span>
+</span><span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="silex.html" class="btn btn-neutral float-right" title="Silex Integration" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="controllers.html" class="btn btn-neutral" title="Controllers" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Studio None.
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

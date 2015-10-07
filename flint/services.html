@@ -1,0 +1,351 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Services &mdash; Flint 1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Flint 1 documentation" href="index.html"/>
+        <link rel="next" title="Controllers" href="controllers.html"/>
+        <link rel="prev" title="Project Structure" href="structure.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> Flint
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#quick-start">Quick Start</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="structure.html">Project Structure</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="structure.html#base-architecture">Base Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="structure.html#extending-flint-app">Extending <code class="docutils literal"><span class="pre">Flint\App</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="structure.html#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Services</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#syntax-for-app-services-php">Syntax For <code class="docutils literal"><span class="pre">/app/services.php</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="controllers.html">Controllers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="controllers.html#syntax-for-app-controllers-php">Syntax For <code class="docutils literal"><span class="pre">app/controllers.php</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="controllers.html#injecting-a-service">Injecting A Service</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routing.html">Routing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="routing.html#controllers-and-route-groups">Controllers and Route Groups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routing.html#route-names-and-converters">Route Names and Converters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="silex.html">Silex Integration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="silex.html#init-function">Init Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="silex.html#traits">Traits</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Flint</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Services</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/services.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="services">
+<h1>Services<a class="headerlink" href="#services" title="Permalink to this headline">¶</a></h1>
+<p>Services are the key component of Flint and Silex. All of your business logic, models, utitlity classes et al should be defined as services, and injected into one another using the <code class="docutils literal"><span class="pre">/app/services.php</span></code> configuration file. Following this pattern strictly will keep all of your code loosely coupled, easily mocked and simply tested. Your classes</p>
+<div class="section" id="syntax-for-app-services-php">
+<h2>Syntax For <code class="docutils literal"><span class="pre">/app/services.php</span></code><a class="headerlink" href="#syntax-for-app-services-php" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">&lt;?php</span> <span class="c1"># app/services.php</span>
+
+<span class="k">return</span> <span class="p">[</span>
+    <span class="s1">&#39;ExampleService&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;FlintExample\Service\ExampleService&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;arguments&#39;</span> <span class="o">=&gt;</span> <span class="p">[]</span>
+    <span class="p">],</span>
+    <span class="s1">&#39;Hello&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;FlintExample\Service\Hello&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;share&#39;</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
+        <span class="s1">&#39;arguments&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+            <span class="s1">&#39;@ExampleService&#39;</span><span class="p">,</span>
+            <span class="mi">1234</span><span class="p">,</span>
+            <span class="s2">&quot;Testing&quot;</span>
+        <span class="p">]</span>
+    <span class="p">]</span>
+<span class="p">];</span>
+</pre></div>
+</td></tr></table></div>
+<p>The <code class="docutils literal"><span class="pre">app/services.php</span></code> file is like other configuration files: an array of arrays that defines the services that will be loaded into the dependency injection container (which lives on <code class="docutils literal"><span class="pre">Flint\App</span></code> or your extended version of it). Each service must have these two arguments, as well as a name (the key for the array):</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">class</span></code>: Class name for the service, including all namespaces</li>
+<li><code class="docutils literal"><span class="pre">arguments</span></code>: An array for the arguments to be passed to the contructor of the service when it is loaded</li>
+</ul>
+<p>The arguments array can be empty. It can also pass in direct values, as you can see on line 11-14 of the above example configuration. To pass a service into another service, a pattern called <strong>dependency injection</strong>, pass a string value in with the value set as the service name prefix with an <code class="docutils literal"><span class="pre">&#64;</span></code> symbol:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">&lt;?php</span> <span class="c1"># app/services.php</span>
+
+<span class="k">return</span> <span class="p">[</span>
+<span class="hll">    <span class="s1">&#39;ExampleService&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+</span>        <span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;FlintExample\Service\ExampleService&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;arguments&#39;</span> <span class="o">=&gt;</span> <span class="p">[]</span>
+    <span class="p">],</span>
+    <span class="s1">&#39;Hello&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;FlintExample\Service\Hello&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;share&#39;</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
+        <span class="s1">&#39;arguments&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+<span class="hll">            <span class="s1">&#39;@ExampleService&#39;</span><span class="p">,</span>
+</span>            <span class="mi">1234</span><span class="p">,</span>
+            <span class="s2">&quot;Testing&quot;</span>
+        <span class="p">]</span>
+    <span class="p">]</span>
+<span class="p">];</span>
+</pre></div>
+</td></tr></table></div>
+<p>You can then access the services in controllers (again injected in constructors, see the <a class="reference internal" href="controllers.html"><em>Controllers</em></a> page for how to do so) in the following way:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">&lt;?php</span>
+<span class="k">namespace</span> <span class="nx">FlintExample\Controller</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">FlintExample\ExampleApp</span><span class="p">,</span>
+    <span class="nx">FlintExample\Accessors</span><span class="p">,</span>
+<span class="hll">    <span class="nx">FlintExample\Service\HelloService</span><span class="p">;</span>
+</span>
+<span class="k">class</span> <span class="nc">TestController</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * Utility trait to give magic getters and setters for any class properties</span>
+<span class="sd">     */</span>
+    <span class="k">use</span> <span class="nx">Accessors</span><span class="p">;</span>
+
+    <span class="k">private</span> <span class="nv">$app</span><span class="p">,</span>
+            <span class="nv">$hello</span><span class="p">;</span>
+
+<span class="hll">    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nx">ExampleApp</span> <span class="nv">$app</span><span class="p">,</span> <span class="nx">HelloService</span> <span class="nv">$hello</span><span class="p">)</span>
+</span>    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">setApp</span><span class="p">(</span><span class="nv">$app</span><span class="p">);</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">setHello</span><span class="p">(</span><span class="nv">$hello</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">indexFunction</span><span class="p">()</span>
+    <span class="p">{</span>
+<span class="hll">        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getHello</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">hello</span><span class="p">(</span><span class="s2">&quot;Josh&quot;</span><span class="p">);</span>
+</span>    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="controllers.html" class="btn btn-neutral float-right" title="Controllers" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="structure.html" class="btn btn-neutral" title="Project Structure" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Studio None.
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

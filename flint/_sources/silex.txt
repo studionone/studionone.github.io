@@ -1,0 +1,63 @@
+=================================================
+Silex Integration
+=================================================
+
+As flint is based on Silex, basically every function available to you in Silex is also available in Flint. Porting an application from Silex to Flint is simple, and most of Silex's documentation (`found here <silex.sensiolabs.org/documentation>`_) applies.
+
+Init Function
+============
+
+One of the key differences between Flint and Silex is that Flint places all of the configuration of your Flint application into methods on a class -- this allows for overriding, mocking, and much easier unit-testing, which is the key issue with many microframeworks. The main way this is achieved is by the ``Flint::init()`` method, that you should define on your child class.
+
+.. code-block:: php
+    :linenos:
+
+    <?php
+    namespace FlintExample;
+
+    use Flint\App;
+
+    class ExampleApp extends App
+    {
+        public function init()
+        {
+            // Configuration of Silex, enabling services providers and the like go here
+        }
+    }
+
+If the ``init()`` method is defined, it will be called after the ``config.php`` is loaded and before any of the services and controllers are, when the ``run()`` method is called.
+
+Traits
+======
+
+Silex supports adding in helper methods and service providers `via PHP traits <http://silex.sensiolabs.org/doc/usage.html#traits>`_, so that you can add helper methods to the top level application objects. One of the key uses for this is adding service providers, such as the Twig helper, making your code far cleaner and avoiding having to inject helper classes into each controller.
+
+As per Silex's documentation, you can simply add a ``use \Silex\Application\TwigTrat;`` declaration to your child application class, exactly the same way. Instead of enabling the service provider in your ``/web/index.php`` as Silex asks you to, you should enable them in the ``init()`` method on your child application class, as shown below.
+
+.. code-block:: php
+    :linenos:
+    :emphasize-lines: 9,16-18
+
+    <?php
+    namespace FlintExample;
+
+    use Flint\App,
+        Silex\Application;  // All of the default traits live under this namespace
+
+    class ExampleApp extends App
+    {
+        use Application\TwigTrait;
+
+        public function init()
+        {
+            $config = $this->getConfig();
+
+            // This is where we enable the Twig service provider
+            $this->register(new \Silex\Provider\TwigServiceProvider(), [
+                'twig.path' => $config['twig']['path'],
+            ]);
+        }
+    }
+
+
+All other Silex traits and service providers are compatible with Flint, use the trait in your child application class and initialise them in the ``init()`` method, and then use them as per the regular Silex documentation.

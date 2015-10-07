@@ -1,0 +1,27 @@
+=================================================
+Flint
+=================================================
+
+.. note::
+
+    :Docs Status: Incomplete
+    :Last Reviewed: 21/05/2015 by Josh Girvin <josh@studionone.com.au>
+
+Contents
+=========
+.. toctree::
+    :maxdepth: 2
+
+    quickstart
+    structure
+    services
+    controllers
+    routing
+    silex
+
+Introduction
+============
+
+Flint is an extension the the `Silex <http://silex.sensiolabs.org>`_ micro-framework and routing library from SensioLabs, that adds some useful structure to your project, as well as adding a declarative config format for defining routes, services and controllers. Flint's main aim is to help you "`fall into the pit of success <http://blog.codinghorror.com/falling-into-the-pit-of-success/>`_"; for example, enabling easy unit testing of all of your application code by ensuring all classes are proper Silex services.
+
+Read the :doc:`quickstart` page to learn how to install it, read through the rest of the services and routing documentation, and finish with learning how the :doc:`silex` works in Flint, to leverage the best parts of Silex in the easiest way possible.

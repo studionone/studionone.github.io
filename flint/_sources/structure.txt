@@ -1,0 +1,115 @@
+=================================================
+Project Structure
+=================================================
+
+.. note::
+
+    This document assumes you are using the ``flint-skeleton`` project as your base (see :doc:`quickstart` for how to do so), setting up Flint without it is possible however it is out of the scope of this documentation.
+
+The main impetus for the development of Flint is that it shouldn't too removed from Silex in terms of functionality, but solve the common problems that developers run into when using Silex and other microframeworks. One of the key issues is the "architecture" of the application code; ie. where to put your classes, what to extend, how to define routes and controllers so they follow the `SOLID OOP design principles <http://en.wikipedia.org/wiki/SOLID_%28object-oriented_design%29>`_ and are easily unit tested. This document will explain how everything is laid out and the assumptions the Flint makes about your project.
+
+
+Base Architecture
+================
+
+A Flint project's architecture is fairly simple, and very similar to an equivalent Silex application. Flint leverages Composer and the PSR-4 autoloading standards to autoload your application's classes, and the "front-controller" pattern (ie. ``index.php`` being the only PHP file in the web-root) so that Flint/Silex handles all routing rather than Apache/Nginx.
+
+.. code-block:: sh
+
+    ~/hello$ tree -L 2
+    .
+    ├── README.md
+    ├── app
+    │   ├── config.php
+    │   ├── controllers.php
+    │   ├── routes.php
+    │   └── services.php
+    ├── composer.json
+    ├── composer.lock
+    ├── src
+    │   ├── Controller
+    │   ├── ExampleApp.php
+    │   └── Service
+    ├── vendor
+    │   ├── autoload.php
+    │   ├── composer
+    │   ├── pimple
+    │   ├── psr
+    │   ├── silex
+    │   ├── studionone
+    │   ├── symfony
+    │   └── twig
+    └── web
+        ├── index.php
+        └── package.json
+
+The main folders and files that you will be working with directly are as follows
+
+- ``/app/*``
+
+  - Where the configuration for the application lives; ie. routing, service definitions, global config
+- ``/src/*``
+
+  - PSR-4 loaded namespace that holds your application classes
+- ``/composer.json``
+
+  - Composer configuration for adding your own app-level dependencies, and adjusting the autoloaded namespace that lives in ``/src``
+- ``/web/index.php``
+
+  - Front-controller, where the base ``/app/config.php`` is loaded and passed to your base application class (extended from ``Flint\Flint``)
+
+
+Extending ``Flint\App``
+=======================
+
+One of the first things you will notice when you install ``flint-skeleton`` is that the example application (and your application) are under the ``Flint\Example`` namespace (in ``/src``, autoloaded through the ``composer.json``), and that there is a top-level ``FlintExample\ExampleApp`` class which is used in ``/web/index.php``. This class extends the ``Flint\App`` class from the Flint framework, which is how the new features are added to Silex. Structuring your classes this way allows us to keep complete compatibility with Silex, while adding new features.
+
+You will want to change the namespace to your application's namespace by adjusting the namespace declarations in the classes defined in ``/src``, the ``/composer.json`` file, and the config files in ``/app``. We will use ``FlintExample`` as our namespace for this document. The ``Flint\App`` base class extends ``Silex\Application``, so most of the Silex documentation still applies.
+
+Configuration
+=============
+
+Configuration of your Flint application happens in the ``/app`` folder. You'll notice that the configuration files are regular PHP, instead of another language such as YAML or XML. This allows for nicer syntax, as well as removing a lot of overhead in parsing the configuration. In the next few sections you will be exposed to the exact syntax for each file, but the ``/app/config.php`` file is important: it is the first file loaded, and points to the rest of the configuration files.
+
+.. literalinclude:: code/app/config.php
+    :language: php
+    :linenos:
+    :emphasize-lines: 5-7
+
+The ``options`` array is where you will typically change or add configuration options that your application will use and access. To access the configuration is simple as it's loaded into your top-level application object:
+
+.. code-block:: php
+    :linenos:
+    :emphasize-lines: 15,16,21
+
+    <?php
+
+    use FlintExample\ExampleApp;
+
+    class ExampleController
+    {
+        private $app,
+                $config;
+
+        /**
+         * $app will be injected when the constructor is created
+         */
+        public function __construct(ExampleApp $app)
+        {
+            $this->app = $app;
+            $this->config = $app->getConfig();
+        }
+
+        public function indexAction()
+        {
+            $isDebug = $this->config['debug'];
+
+            if ($isDebug) {
+                // do something
+            } else {
+                // do something else
+            }
+        }
+    }
+
+Typically you will not have to change the configuration often, but if you want to set configuration as environment variables this is possible in the ``app/config.php`` -- one of the many benefits of having config in PHP instead of a markup language.

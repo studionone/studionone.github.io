@@ -1,0 +1,42 @@
+=================================================
+Getting Started
+=================================================
+.. note::
+    This document assumes you have a working PHP install, access to the PHP CLI, Git, and `Composer <http://getcomposer.org/>`_ installed on the machine you are setting Flint up on
+
+This page will get you up and running with Flint, using Studio None's private Satis Composer repository. This will change in the future as this documentation is completed and Flint moved out to Packagist and GitHub.
+
+Requirements
+============
+    - Access to the `StudioNoneDev <https://bitbucket.org/StudioNoneDev/>`_ BitBucket team
+    - PHP 5.4
+    - Git
+    - Composer
+
+Quick Start
+===========
+.. tip::
+        Composer should be installed onto your ``$PATH`` as ``composer``. If it's not in your path (run ``which composer`` in your terminal to find out), replace ``composer`` in the commands below with ``php composer.phar``
+
+
+The simplest way to get up and running with Flint is to leverage the `flint-skeleton <https://bitbucket.org/StudioNoneDev/flint-skeleton>`_ repository, the `composer.labs.studionone.com.au <http://composer.labs.studionone.com.au>`_ private Composer repository and Composer's powerful ``create-project`` command.
+
+Run the following command where you'd like to create the new Flint project, remembering to set the folder you'd like to install it into.
+
+.. code-block:: sh
+
+    composer create-project --repository-url="http://composer.labs.studionone.com.au" studionone/flint-skeleton <FOLDER NAME> dev-master
+
+Composer will then ask you the following, which you will want to answer yes (``Y``) to, so you can set up your own git repository for your specific application.
+
+::
+
+    Do you want to remove the existing VCS (.git, .svn..) history? [Y,n]?
+
+After you have created the project (we will assume you installed the project into a folder called ``hello``, test that it's working by running the following command, and navigating to http://localhost:8080/
+
+.. code-block:: sh
+
+    cd hello && composer start-server
+
+You should see ``Hello, Flint! This is the indexAction.`` in your browser. The ``composer start-server`` command runs a HTTP server using PHP directly, which is not usable for production, so an Nginx or Apache config will be required; this is out of scope for this document. You're now ready to begin developing your application!

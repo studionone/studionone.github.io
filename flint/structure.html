@@ -1,0 +1,372 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Project Structure &mdash; Flint 1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Flint 1 documentation" href="index.html"/>
+        <link rel="next" title="Services" href="services.html"/>
+        <link rel="prev" title="Getting Started" href="quickstart.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> Flint
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#quick-start">Quick Start</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Project Structure</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#base-architecture">Base Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#extending-flint-app">Extending <code class="docutils literal"><span class="pre">Flint\App</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="services.html">Services</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="services.html#syntax-for-app-services-php">Syntax For <code class="docutils literal"><span class="pre">/app/services.php</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="controllers.html">Controllers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="controllers.html#syntax-for-app-controllers-php">Syntax For <code class="docutils literal"><span class="pre">app/controllers.php</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="controllers.html#injecting-a-service">Injecting A Service</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="routing.html">Routing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="routing.html#controllers-and-route-groups">Controllers and Route Groups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="routing.html#route-names-and-converters">Route Names and Converters</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="silex.html">Silex Integration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="silex.html#init-function">Init Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="silex.html#traits">Traits</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Flint</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Project Structure</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/structure.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="project-structure">
+<h1>Project Structure<a class="headerlink" href="#project-structure" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This document assumes you are using the <code class="docutils literal"><span class="pre">flint-skeleton</span></code> project as your base (see <a class="reference internal" href="quickstart.html"><em>Getting Started</em></a> for how to do so), setting up Flint without it is possible however it is out of the scope of this documentation.</p>
+</div>
+<p>The main impetus for the development of Flint is that it shouldn&#8217;t too removed from Silex in terms of functionality, but solve the common problems that developers run into when using Silex and other microframeworks. One of the key issues is the &#8220;architecture&#8221; of the application code; ie. where to put your classes, what to extend, how to define routes and controllers so they follow the <a class="reference external" href="http://en.wikipedia.org/wiki/SOLID_%28object-oriented_design%29">SOLID OOP design principles</a> and are easily unit tested. This document will explain how everything is laid out and the assumptions the Flint makes about your project.</p>
+<div class="section" id="base-architecture">
+<h2>Base Architecture<a class="headerlink" href="#base-architecture" title="Permalink to this headline">¶</a></h2>
+<p>A Flint project&#8217;s architecture is fairly simple, and very similar to an equivalent Silex application. Flint leverages Composer and the PSR-4 autoloading standards to autoload your application&#8217;s classes, and the &#8220;front-controller&#8221; pattern (ie. <code class="docutils literal"><span class="pre">index.php</span></code> being the only PHP file in the web-root) so that Flint/Silex handles all routing rather than Apache/Nginx.</p>
+<div class="highlight-sh"><div class="highlight"><pre>~/hello<span class="nv">$ </span>tree -L 2
+.
+├── README.md
+├── app
+│   ├── config.php
+│   ├── controllers.php
+│   ├── routes.php
+│   └── services.php
+├── composer.json
+├── composer.lock
+├── src
+│   ├── Controller
+│   ├── ExampleApp.php
+│   └── Service
+├── vendor
+│   ├── autoload.php
+│   ├── composer
+│   ├── pimple
+│   ├── psr
+│   ├── silex
+│   ├── studionone
+│   ├── symfony
+│   └── twig
+└── web
+    ├── index.php
+    └── package.json
+</pre></div>
+</div>
+<p>The main folders and files that you will be working with directly are as follows</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">/app/*</span></code><ul>
+<li>Where the configuration for the application lives; ie. routing, service definitions, global config</li>
+</ul>
+</li>
+<li><code class="docutils literal"><span class="pre">/src/*</span></code><ul>
+<li>PSR-4 loaded namespace that holds your application classes</li>
+</ul>
+</li>
+<li><code class="docutils literal"><span class="pre">/composer.json</span></code><ul>
+<li>Composer configuration for adding your own app-level dependencies, and adjusting the autoloaded namespace that lives in <code class="docutils literal"><span class="pre">/src</span></code></li>
+</ul>
+</li>
+<li><code class="docutils literal"><span class="pre">/web/index.php</span></code><ul>
+<li>Front-controller, where the base <code class="docutils literal"><span class="pre">/app/config.php</span></code> is loaded and passed to your base application class (extended from <code class="docutils literal"><span class="pre">Flint\Flint</span></code>)</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="extending-flint-app">
+<h2>Extending <code class="docutils literal"><span class="pre">Flint\App</span></code><a class="headerlink" href="#extending-flint-app" title="Permalink to this headline">¶</a></h2>
+<p>One of the first things you will notice when you install <code class="docutils literal"><span class="pre">flint-skeleton</span></code> is that the example application (and your application) are under the <code class="docutils literal"><span class="pre">Flint\Example</span></code> namespace (in <code class="docutils literal"><span class="pre">/src</span></code>, autoloaded through the <code class="docutils literal"><span class="pre">composer.json</span></code>), and that there is a top-level <code class="docutils literal"><span class="pre">FlintExample\ExampleApp</span></code> class which is used in <code class="docutils literal"><span class="pre">/web/index.php</span></code>. This class extends the <code class="docutils literal"><span class="pre">Flint\App</span></code> class from the Flint framework, which is how the new features are added to Silex. Structuring your classes this way allows us to keep complete compatibility with Silex, while adding new features.</p>
+<p>You will want to change the namespace to your application&#8217;s namespace by adjusting the namespace declarations in the classes defined in <code class="docutils literal"><span class="pre">/src</span></code>, the <code class="docutils literal"><span class="pre">/composer.json</span></code> file, and the config files in <code class="docutils literal"><span class="pre">/app</span></code>. We will use <code class="docutils literal"><span class="pre">FlintExample</span></code> as our namespace for this document. The <code class="docutils literal"><span class="pre">Flint\App</span></code> base class extends <code class="docutils literal"><span class="pre">Silex\Application</span></code>, so most of the Silex documentation still applies.</p>
+</div>
+<div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<p>Configuration of your Flint application happens in the <code class="docutils literal"><span class="pre">/app</span></code> folder. You&#8217;ll notice that the configuration files are regular PHP, instead of another language such as YAML or XML. This allows for nicer syntax, as well as removing a lot of overhead in parsing the configuration. In the next few sections you will be exposed to the exact syntax for each file, but the <code class="docutils literal"><span class="pre">/app/config.php</span></code> file is important: it is the first file loaded, and points to the rest of the configuration files.</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">&lt;?php</span> <span class="c1"># app/config.php</span>
+
+<span class="k">return</span> <span class="p">[</span>
+    <span class="c1">// User defineable config options</span>
+<span class="hll">    <span class="s1">&#39;options&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+</span><span class="hll">        <span class="s1">&#39;debug&#39;</span> <span class="o">=&gt;</span> <span class="k">true</span>
+</span><span class="hll">    <span class="p">],</span>
+</span>
+    <span class="c1">// These are defaults, change only if you&#39;re sure</span>
+    <span class="s1">&#39;core&#39;</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">&#39;configDir&#39;</span> <span class="o">=&gt;</span> <span class="nx">__DIR__</span><span class="p">,</span>
+        <span class="s1">&#39;controllersFile&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;/controllers.php&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;routesFile&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;/routes.php&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;servicesFile&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;/services.php&#39;</span>
+    <span class="p">]</span>
+<span class="p">];</span>
+</pre></div>
+</td></tr></table></div>
+<p>The <code class="docutils literal"><span class="pre">options</span></code> array is where you will typically change or add configuration options that your application will use and access. To access the configuration is simple as it&#8217;s loaded into your top-level application object:</p>
+<div class="highlight-php"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">&lt;?php</span>
+
+<span class="k">use</span> <span class="nx">FlintExample\ExampleApp</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ExampleController</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="nv">$app</span><span class="p">,</span>
+            <span class="nv">$config</span><span class="p">;</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * $app will be injected when the constructor is created</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nx">ExampleApp</span> <span class="nv">$app</span><span class="p">)</span>
+    <span class="p">{</span>
+<span class="hll">        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">app</span> <span class="o">=</span> <span class="nv">$app</span><span class="p">;</span>
+</span><span class="hll">        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">config</span> <span class="o">=</span> <span class="nv">$app</span><span class="o">-&gt;</span><span class="na">getConfig</span><span class="p">();</span>
+</span>    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">()</span>
+    <span class="p">{</span>
+<span class="hll">        <span class="nv">$isDebug</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">config</span><span class="p">[</span><span class="s1">&#39;debug&#39;</span><span class="p">];</span>
+</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$isDebug</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// do something</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="c1">// do something else</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Typically you will not have to change the configuration often, but if you want to set configuration as environment variables this is possible in the <code class="docutils literal"><span class="pre">app/config.php</span></code> &#8211; one of the many benefits of having config in PHP instead of a markup language.</p>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="services.html" class="btn btn-neutral float-right" title="Services" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="quickstart.html" class="btn btn-neutral" title="Getting Started" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Studio None.
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

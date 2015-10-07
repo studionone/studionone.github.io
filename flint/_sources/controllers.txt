@@ -1,0 +1,36 @@
+=================================================
+Controllers
+=================================================
+
+Controllers are where your request-response cycles begin and end. A route is matched to a controller, and a method on that controller, and dispatched through. Controllers in Flint are actually all **Controller Services**, a Silex and Symfony concept where each controller is defined as a regular service, with some special magic (specifically, appending ``.controller`` to the service name, and making it ``share()``-ed so it's a singleton). See the usage documentation at `Silex's documentation site <silex.sensiolabs.org/doc/providers/service_controller.html>`_, and how to define them in Flint below.
+
+Syntax For ``app/controllers.php``
+===============================
+
+.. literalinclude:: code/app/controllers.php
+    :language: php
+    :linenos:
+    :emphasize-lines: 2,6
+
+This config file shows how a controller is defined, named ``example``, which will be accessed in the routes by ``example.controller``. It uses a callback to define the controller: this will allow you to bring in services easily.
+
+Injecting A Service
+==================
+
+.. code-block:: php
+    :linenos:
+    :emphasize-lines: 2,8,11
+
+    <?php
+    use FlintExample\ExampleApp,
+        FlintExample\Controller\ExampleController;
+
+    return [
+        'example' => function() {
+            // Retrieve the service named 'Hello' from the DI container
+            $hello = ExampleApp::getInstance()['Hello'];
+
+            // Inject it into the controller
+            return new ExampleController($hello);
+        }
+    ];

@@ -1,0 +1,53 @@
+=================================================
+Routing
+=================================================
+
+Routing is handled the same way as the rest of Flint, with PHP config files return an array of arrays. The arrays themselves are key=>value where the key is the route itself (ie. ``/posts`` or ``/hello/{name}``) and the value is an array of configuration values for that route that are used if it's matched. Routes work the same was as Silex, so check their documentation for how route definitions and parameters are matched and passed through to a controller.
+
+.. literalinclude:: code/app/routes.php
+    :language: php
+    :linenos:
+
+Require values for each route are:
+
+- Route
+
+  - Method (``get``, ``post``, ``put``, ``delete``)
+  - Controller
+
+Controllers and Route Groups
+==========================
+
+While you can bind a route to a callback, best practice to to use a controller, as shown in the previous page of this documentation. You can see how that is done on line 4. Route grouping is done by setting a top-level route that the group will be under, and having an array of arrays as if it was a top-level definition underneath that. See lines 5-7 for an example. Currently, only one level of grouping is supported.
+
+.. literalinclude:: code/app/routes.php
+    :language: php
+    :linenos:
+    :emphasize-lines: 5-7
+
+Route Names and Converters
+========================
+
+Two optional values in a route definition are route names (which come after the controller definition), and converter methods (which are last). Route names are super useful for Twig templating, allowing you to use the URL methods to generate correct URLs even if they change over time without touching your template code. See line 11 for an example.
+
+Converter methods are a powerful tool that run before the controller's method is called: these will allow you to sanitise or otherwise munge data that is brought through the route parameters. Converter methods can either be an anonymous function, or a service=>method definition, the same way the controller definition works. The main difference is that the parameter name is passed in, so that if multiple route parameters are defined you can pass through only the ones you want converted. You can see a definition on lines 12-15 below.
+
+.. literalinclude:: code/app/routes.php
+    :language: php
+    :linenos:
+    :emphasize-lines: 12-15
+
+.. code-block:: php
+    :linenos:
+    :emphasize-lines: 6-9
+
+    <?php
+    namespace FlintExample\Service;
+
+    class ExampleService
+    {
+        public function reverse($name)
+        {
+            return strrev($name);
+        }
+    }
